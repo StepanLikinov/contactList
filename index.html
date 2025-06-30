@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <script type="module" src="./index.js" defer></script>
+
+    <title>Contact LIst</title>
+</head>
+<body>
+    <header>
+        <div class="header__container container">
+            <h1 class="header__title">Contact List on JS</h1>
+            <a class="header__github" href="https://github.com/">GitHub Repository link</a>
+        </div>
+    </header>
+
+    <section class="search-section">
+        <div class="search-section__container container">
+            <div class="search-section__inputs">
+                <input 
+                    type="text" 
+                    class="search-section__input search-section__input--name" 
+                    placeholder="Name"
+                >
+                <input 
+                    type="text" 
+                    class="search-section__input search-section__input--vacancy" 
+                    placeholder="Vacancy"
+                >
+                <input 
+                    type="text" 
+                    class="search-section__input search-section__input--phone" 
+                    placeholder="Phone +X XXX XXX XX XX"
+                >
+
+                <button 
+                    type="button" 
+                    class="search-section__button search-section__button--add"
+                >ADD</button>
+                <button 
+                    type="button" 
+                    class="search-section__button search-section__button--clear"
+                >Clear List</button>
+                <button 
+                    type="button" 
+                    class="search-section__button search-section__button--search"
+                >Search</button>
+            </div>
+
+            <div class="error-holder">
+                <div class="error hidden">ERROR</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="list-section">
+            <div class="list-section__container container">
+
+            </div>
+    </section>
+
+    <!-- Modals -->
+
+    <div id="edit-modal" class="modal" role="dialog" 
+        aria-modal="true" aria-labelledby="modal-title"
+    >
+
+        <div class="modal-content">
+            <h2 class="modal-title">Редактировать контакт</h2>
+            <div class="error hidden"></div>
+            <form id="edit-form">
+                <label>
+                    Name:
+                    <input type="text" id="edit-name" required />
+                </label>
+                <label>
+                    Vacancy:
+                    <input type="text" id="edit-vacancy" required />
+                </label>
+                <label>
+                    Phone:
+                    <input type="text" id="edit-phone" required />
+                </label>
+                <div class="modal-buttons">
+                    <button type="submit">Сохранить</button>
+                    <button type="button" id="edit-cancel">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="search-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Search Contacts</h2>
+            <input type="text" id="search-input" placeholder="Search..." />
+            <ul id="search-results" class="search-results"></ul>
+            <div class="modal-buttons">
+                <button class="modal-buttons button" id="search-close">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates -->
+
+    <template id="letter-group-template">
+        <div class="letter-group" data-id="">
+            <div class="letter-group__header">
+                <h2 class="letter-group__title"></h2>
+                <h2 class="letter-group__count">0</h2>
+            </div>
+            <div class="letter-group__contacts"></div>
+        </div>
+    </template>
+
+    <template id="contact-template">
+        <div class="contact-card">
+            <div class="contact-card__info">
+                <p class="contact-card__line contact-card__name"></p>
+                <p class="contact-card__line contact-card__vacancy"></p>
+                <p class="contact-card__line contact-card__phone"></p>
+            </div>
+            <div class="contact-card__buttons">
+                <button class="contact-card__edit" aria-label="Edit contact">
+                    ✎
+                </button>
+                <button class="contact-card__delete" aria-label="Delete contact">
+                    ✖
+                </button>
+            </div>
+        </div>
+    </template>
+</body>
+</html>
