@@ -48,11 +48,13 @@ body {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 2px;
+    gap: 10px;
 }
 
 .search-section__input, .search-section__button  {
+    flex: 1 1 200px;
     padding: 15px 25px;
+    margin-bottom: 5px;
     border: 3px solid rgb(108, 105, 105);
     border-radius: 5px;
     font-size: 2rem;
@@ -72,6 +74,7 @@ body {
 
 .search-section__button {
     background-color: white;
+    /* max-width: 200px;  */
 }
 
 .error-holder {
@@ -95,6 +98,19 @@ body {
 .error.hidden {
     opacity: 0;
     visibility: hidden;
+}
+
+@media (max-width: 480px) {
+    .search-section__inputs {
+        flex-direction: column;
+    }
+    .search-section__input,
+    .search-section__button {
+        flex: none;
+        width: 100%;
+        max-width: none;
+        font-size: 1.4rem;
+    }
 }
 
 
