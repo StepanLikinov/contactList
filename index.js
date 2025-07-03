@@ -3,9 +3,9 @@
  */
 
 import './style.css';
-import { renderLetterGroups } from "./lib/renders.js";
-import { contactsDomApi } from "./lib/contactsDomApi.js";
-import { contactsStorageApi } from "./lib/contactStorageApi.js";
+import { renderLetterGroups } from "./lib/renders";
+import { contactsDomApi } from "./lib/contactsDomApi";
+import { contactsStorageApi } from "./lib/contactStorageApi";
 
 /**
  * Nodes

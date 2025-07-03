@@ -14,6 +14,9 @@ module.exports = {
     } : undefined,
     devtool: isDevelopment ? 'inline-source-map' : undefined,
     mode: isDevelopment ? 'development' : 'production',
+    resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    },
     module: {
         rules: [
             {
