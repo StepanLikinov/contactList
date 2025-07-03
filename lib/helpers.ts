@@ -2,28 +2,31 @@
  * Imports
  */
 
-import { v4 as uuidv4 } from '../node_modules/uuid/dist/esm-browser/index'
+import { v4 as uuidv4 } from '../node_modules/uuid/dist/esm-browser/index.js'
+import type { Contact } from './types';
 
 /**
  * Helpers
  */
 
-const generateId = () => {
+const generateId = (): string => {
     let id = uuidv4();
 
     return id;
 }
 
-const createContact = (name, vacancy, phone) => {
-    return {
-        id: generateId(),
-        name: name.trim(),
-        vacancy: vacancy.trim(),
-        phone: phone.trim(),
-    };
+const createContact = (
+    name: string, vacancy: string, phone: string
+): Contact => {
+        return {
+            id: generateId(),
+            name: name.trim(),
+            vacancy: vacancy.trim(),
+            phone: phone.trim(),
+        };
 }
 
-function getFirstLetter(contact) {
+function getFirstLetter(contact: Contact): string {
     return contact.name[0].toUpperCase();
 }
 
@@ -31,8 +34,11 @@ function getFirstLetter(contact) {
  * Validations
  */
 
-function showInputError($input, $error, message) {
-
+function showInputError(
+    $input: HTMLInputElement, 
+    $error: HTMLElement, 
+    message: string
+): void {
     const originalPlaceholder = $input.getAttribute('placeholder');
     $input.classList.add('invalid');
     $input.value = '';
@@ -42,11 +48,15 @@ function showInputError($input, $error, message) {
     setTimeout(() => {
         $input.classList.remove('invalid');
         $error.classList.add('hidden');
-        $input.placeholder = originalPlaceholder;
+        if (originalPlaceholder !== null) {
+            $input.placeholder = originalPlaceholder;
+        }
     }, 2000);
 }
 
-function validateTextInput($input, $error) {
+function validateTextInput(
+    $input: HTMLInputElement, $error: HTMLElement
+):boolean {
     const value = $input.value.trim();
     const textRegex = /^[a-zA-Z\s-]+$/;
 
@@ -63,7 +73,10 @@ function validateTextInput($input, $error) {
     return true;
 }
 
-function validatePhoneInput($input, $error) {
+function validatePhoneInput(
+    $input: HTMLInputElement, 
+    $error: HTMLElement
+):boolean {
     const value = $input.value.trim();
     const phoneRegex = /^\+\d{1}\d{3}\d{3}\d{2}\d{2}$/;
 
