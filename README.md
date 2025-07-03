@@ -6,14 +6,11 @@
 
 ## Технологический стек
 
-- **Язык программирования:** JavaScript
+- **Язык программирования:** TypeScript
 - **API:** Browser APIs
 - **Инструменты:** Webpack, NodeJS, Netlify
 - **Хранилище:** LocalStorage
 
-## Демо
-
-- [Веб-версия](https://contact-list-sl.netlify.app/)
 
 ## Установка локально
 
