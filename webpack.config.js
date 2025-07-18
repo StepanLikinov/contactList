@@ -8,17 +8,29 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
-    devServer: isDevelopment ? {
-        static: './dist',
-        hot: true,
-    } : undefined,
+    devServer: isDevelopment
+        ? {
+              static: './dist',
+              hot: true,
+          }
+        : undefined,
     devtool: isDevelopment ? 'inline-source-map' : undefined,
     mode: isDevelopment ? 'development' : 'production',
     resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     module: {
         rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                    },
+                },
+            },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
@@ -27,8 +39,8 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-          template: './index.html',
-          favicon: './favicon.ico'
+            template: './index.html',
+            favicon: './favicon.ico',
         }),
     ],
 };
