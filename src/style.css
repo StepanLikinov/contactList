@@ -51,7 +51,8 @@ body {
     gap: 10px;
 }
 
-.search-section__input, .search-section__button  {
+.search-section__input,
+.search-section__button {
     flex: 1 1 200px;
     padding: 15px 25px;
     margin-bottom: 5px;
@@ -61,7 +62,8 @@ body {
     transition: border-color 0.5s, background-color 0.5s;
 }
 
-.search-section__input:hover, .search-section__button:hover {
+.search-section__input:hover,
+.search-section__button:hover {
     border-color: black;
     cursor: pointer;
 }
@@ -74,7 +76,6 @@ body {
 
 .search-section__button {
     background-color: white;
-    /* max-width: 200px;  */
 }
 
 .error-holder {
@@ -112,7 +113,6 @@ body {
         font-size: 1.4rem;
     }
 }
-
 
 /* List section */
 
@@ -208,13 +208,15 @@ body {
     color: #a00;
 }
 
-
 /* Modals */
 
 .modal {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -267,7 +269,7 @@ body {
 }
 
 #edit-form input:focus {
-    border-color: #007BFF;
+    border-color: #007bff;
 }
 
 .modal-buttons {
@@ -286,12 +288,12 @@ body {
     font-weight: 600;
 }
 
-.modal-buttons button[type="submit"] {
-    background-color: #007BFF;
+.modal-buttons button[type='submit'] {
+    background-color: #007bff;
     color: white;
 }
 
-.modal-buttons button[type="submit"]:hover {
+.modal-buttons button[type='submit']:hover {
     background-color: #0056b3;
 }
 
@@ -306,7 +308,10 @@ body {
 
 #search-modal {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
