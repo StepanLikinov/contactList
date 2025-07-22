@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useContacts } from '../../context/ContactsContext';
 import { validatePhoneInput, validateTextInput } from '../../lib/helpers';
+import LabeledInput from '../LabeledInput';
 
 export default function EditModal() {
     const { isEditModalOpen, editableContact, updateContact, closeEditModal } =
@@ -70,6 +71,10 @@ export default function EditModal() {
         closeEditModal();
     };
 
+    const handleChange = (e) => {
+        setFormData({ ...formData, [field]: e.target.value });
+    };
+
     return (
         <div
             id="edit-modal"
@@ -81,54 +86,45 @@ export default function EditModal() {
             <div className="modal-content">
                 <h2 className="modal-title">Редактировать контакт</h2>
                 <form id="edit-form" onSubmit={handleSubmit}>
-                    <label>
-                        Name:
-                        <input
-                            type="text"
-                            id="edit-name"
-                            placeholder={placeholders.name}
-                            value={formData.name}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    name: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </label>
-                    <label>
-                        Vacancy:
-                        <input
-                            type="text"
-                            id="edit-vacancy"
-                            placeholder={placeholders.vacancy}
-                            value={formData.vacancy}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    vacancy: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </label>
-                    <label>
-                        Phone:
-                        <input
-                            type="text"
-                            id="edit-phone"
-                            placeholder={placeholders.phone}
-                            value={formData.phone}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    phone: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </label>
+                    <LabeledInput
+                        label="Name"
+                        id="edit-name"
+                        placeholder={placeholders.name}
+                        value={formData.name}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                name: e.target.value,
+                            })
+                        }
+                    />
+
+                    <LabeledInput
+                        label="Vacancy"
+                        id="edit-vacancy"
+                        placeholder={placeholders.vacancy}
+                        value={formData.vacancy}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                vacancy: e.target.value,
+                            })
+                        }
+                    />
+
+                    <LabeledInput
+                        label="Phone"
+                        id="edit-phone"
+                        placeholder={placeholders.phone}
+                        value={formData.phone}
+                        onChange={(e) =>
+                            setFormData({
+                                ...formData,
+                                phone: e.target.value,
+                            })
+                        }
+                    />
+
                     <div className="modal-buttons">
                         <button type="submit">Сохранить</button>
                         <button
