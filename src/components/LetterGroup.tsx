@@ -1,6 +1,19 @@
-import { useState } from 'react';
+/**
+ * Imports
+ */
 
-export default function LetterGroup({ letter, count, children }) {
+import { useState } from 'react';
+import { LetterGroupProps } from '../types/interfaces';
+
+/**
+ * Letter Group
+ */
+
+export default function LetterGroup({
+    letter,
+    count,
+    children,
+}: LetterGroupProps) {
     const [isOpen, setIsOpen] = useState(false);
     const toggleOpen = () => setIsOpen((prev) => !prev);
 

@@ -1,17 +1,32 @@
-import { useState, useEffect } from 'react';
+/**
+ * Imports
+ */
+
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { useContacts } from '../../context/ContactsContext';
+import LabeledInput from '../LabeledInput';
 import { validatePhoneInput, validateTextInput } from '../../lib/helpers';
+import {
+    FormData,
+    EditableFormData,
+    Placeholders,
+} from '../../types/interfaces';
+
+/**
+ * Edit Modal
+ */
 
 export default function EditModal() {
     const { isEditModalOpen, editableContact, updateContact, closeEditModal } =
         useContacts();
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<EditableFormData>({
+        id: '',
         name: '',
         vacancy: '',
         phone: '',
     });
-    const [placeholders, setPlaceholders] = useState({
+    const [placeholders, setPlaceholders] = useState<Placeholders>({
         name: 'Name',
         vacancy: 'Vacancy',
         phone: 'Phone +X XXX XXX XX XX',
@@ -28,7 +43,7 @@ export default function EditModal() {
         }
     }, [editableContact]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const nameValidation = validateTextInput(formData.name);
@@ -46,19 +61,19 @@ export default function EditModal() {
         if (!nameValidation.valid) {
             isValid = false;
             newFormData.name = '';
-            newPlaceholders.name = nameValidation.message;
+            newPlaceholders.name = nameValidation.message || '';
         }
 
         if (!vacancyValidation.valid) {
             isValid = false;
             newFormData.vacancy = '';
-            newPlaceholders.vacancy = vacancyValidation.message;
+            newPlaceholders.vacancy = vacancyValidation.message || '';
         }
 
         if (!phoneValidation.valid) {
             isValid = false;
             newFormData.phone = '';
-            newPlaceholders.phone = phoneValidation.message;
+            newPlaceholders.phone = phoneValidation.message || '';
         }
 
         setFormData(newFormData);
@@ -69,6 +84,14 @@ export default function EditModal() {
         updateContact(newFormData);
         closeEditModal();
     };
+
+    const handleChange =
+        (key: keyof FormData) => (e: ChangeEvent<HTMLInputElement>) => {
+            setFormData({
+                ...formData,
+                [key]: e.target.value,
+            });
+        };
 
     return (
         <div
@@ -81,54 +104,29 @@ export default function EditModal() {
             <div className="modal-content">
                 <h2 className="modal-title">Редактировать контакт</h2>
                 <form id="edit-form" onSubmit={handleSubmit}>
-                    <label>
-                        Name:
-                        <input
-                            type="text"
-                            id="edit-name"
-                            placeholder={placeholders.name}
-                            value={formData.name}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    name: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </label>
-                    <label>
-                        Vacancy:
-                        <input
-                            type="text"
-                            id="edit-vacancy"
-                            placeholder={placeholders.vacancy}
-                            value={formData.vacancy}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    vacancy: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </label>
-                    <label>
-                        Phone:
-                        <input
-                            type="text"
-                            id="edit-phone"
-                            placeholder={placeholders.phone}
-                            value={formData.phone}
-                            onChange={(e) =>
-                                setFormData({
-                                    ...formData,
-                                    phone: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </label>
+                    <LabeledInput
+                        label="Name"
+                        id="edit-name"
+                        placeholder={placeholders.name}
+                        value={formData.name}
+                        onChange={handleChange('name')}
+                    />
+
+                    <LabeledInput
+                        label="Vacancy"
+                        id="edit-vacancy"
+                        placeholder={placeholders.vacancy}
+                        value={formData.vacancy}
+                        onChange={handleChange('vacancy')}
+                    />
+
+                    <LabeledInput
+                        label="Phone"
+                        id="edit-phone"
+                        placeholder={placeholders.phone}
+                        value={formData.phone}
+                        onChange={handleChange('phone')}
+                    />
                     <div className="modal-buttons">
                         <button type="submit">Сохранить</button>
                         <button

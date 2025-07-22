@@ -1,5 +1,5 @@
 import { useContacts } from '../../context/ContactsContext';
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 export default function SearchModal() {
     const {
@@ -10,13 +10,17 @@ export default function SearchModal() {
         openEditModal,
     } = useContacts();
 
-    const [query, setQuery] = useState('');
+    const [query, setQuery] = useState<string>('');
 
     const filtered = contacts.filter((contact) =>
         contact.name.toLowerCase().startsWith(query.toLowerCase().trim()),
     );
 
     if (!isSearchModalOpen) return null;
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.target.value);
+    };
 
     return (
         <div
@@ -28,7 +32,7 @@ export default function SearchModal() {
                 <input
                     type="text"
                     id="search-input"
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={handleChange}
                     placeholder="Search..."
                 />
                 <ul id="search-results" className="search-results">

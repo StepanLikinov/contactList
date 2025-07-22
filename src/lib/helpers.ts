@@ -3,18 +3,23 @@
  */
 
 import { v4 as uuidv4 } from 'uuid';
+import { Contact, ValidationResult } from '../types/interfaces';
 
 /**
  * Helpers
  */
 
-const generateId = () => {
-    let id = uuidv4();
+const generateId = (): string => {
+    let id: string = uuidv4();
 
     return id;
 };
 
-const createContact = (name, vacancy, phone) => {
+const createContact = (
+    name: string,
+    vacancy: string,
+    phone: string,
+): Contact => {
     return {
         id: generateId(),
         name: name.trim(),
@@ -23,39 +28,18 @@ const createContact = (name, vacancy, phone) => {
     };
 };
 
-// function getFirstLetter(contact) {
-//     return contact.name[0].toUpperCase();
-// }
-
-/**
- * Validations
- */
-
-// function showInputError($input, $error, message) {
-//     const originalPlaceholder = $input.getAttribute('placeholder');
-//     $input.classList.add('invalid');
-//     $input.value = '';
-//     $input.placeholder = message;
-//     $error.classList.remove('hidden');
-
-//     setTimeout(() => {
-//         $input.classList.remove('invalid');
-//         $error.classList.add('hidden');
-//         $input.placeholder = originalPlaceholder;
-//     }, 2000);
-// }
-
-const getCountByLetter = (contacts) => {
-    const map = {};
+const getCountByLetter = (contacts: Contact[]): Record<string, number> => {
+    const map: Record<string, number> = {};
     contacts.forEach((contact) => {
         const firstLetter = contact.name[0].toUpperCase();
         if (!map[firstLetter]) map[firstLetter] = 0;
         map[firstLetter]++;
     });
+
     return map;
 };
 
-function validateTextInput(value) {
+function validateTextInput(value: string): ValidationResult {
     const trimmed = value.trim();
     const regex = /^[a-zA-Z\s-]+$/;
 
@@ -66,7 +50,7 @@ function validateTextInput(value) {
     return { valid: true };
 }
 
-function validatePhoneInput(value) {
+function validatePhoneInput(value: string): ValidationResult {
     const trimmed = value.trim();
     const regex = /^\+\d{1}\d{3}\d{3}\d{2}\d{2}$/;
 
@@ -83,10 +67,8 @@ function validatePhoneInput(value) {
 
 export {
     generateId,
-    // showInputError,
     validatePhoneInput,
     validateTextInput,
     createContact,
-    // getFirstLetter,
     getCountByLetter,
 };

@@ -1,6 +1,15 @@
-import { useContacts } from '../context/ContactsContext';
+/**
+ * Inports
+ */
 
-export default function ContactCard({ contact }) {
+import { useContacts } from '../context/ContactsContext';
+import { ContactCardProps } from '../types/interfaces';
+
+/**
+ * Contact Card
+ */
+
+export default function ContactCard({ contact }: ContactCardProps) {
     const { removeContact, openEditModal } = useContacts();
 
     return (

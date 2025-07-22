@@ -1,8 +1,17 @@
+/**
+ * Imports
+ */
+
 import LetterGroup from '../LetterGroup';
 import ContactCard from '../ContactCard';
 import { useContacts } from '../../context/ContactsContext';
+import { ListProps } from '../../types/interfaces';
 
-export default function List({ chars, countMap }) {
+/**
+ * List
+ */
+
+export default function List({ chars, countMap }: ListProps) {
     const { contacts } = useContacts();
 
     return (

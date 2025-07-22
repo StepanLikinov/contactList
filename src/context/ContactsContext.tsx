@@ -1,16 +1,39 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+/**
+ * Imports
+ */
+
+import {
+    createContext,
+    useState,
+    useEffect,
+    useContext,
+    ReactNode,
+} from 'react';
+import {
+    Contact,
+    ContactsContextType,
+    ContactsProviderProps,
+} from '../types/interfaces';
+
+/**
+ * Context
+ */
 
 const LOCAL_STORAGE_KEY = 'contacts';
 
-const ContactsContext = createContext();
+const ContactsContext = createContext<ContactsContextType | undefined>(
+    undefined,
+);
 
-export function ContactsProvider({ children }) {
-    const [contacts, setContacts] = useState(() => {
+export function ContactsProvider({ children }: ContactsProviderProps) {
+    const [contacts, setContacts] = useState<Contact[]>(() => {
         const json = localStorage.getItem(LOCAL_STORAGE_KEY);
         return json ? JSON.parse(json) : [];
     });
 
-    const [editableContact, setEditableContact] = useState(null);
+    const [editableContact, setEditableContact] = useState<Contact | null>(
+        null,
+    );
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
@@ -18,15 +41,15 @@ export function ContactsProvider({ children }) {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
     }, [contacts]);
 
-    const addContact = (contact) => {
+    const addContact = (contact: Contact) => {
         setContacts((prev) => [...prev, contact]);
     };
 
-    const removeContact = (id) => {
+    const removeContact = (id: string) => {
         setContacts((prev) => prev.filter((c) => c.id !== id));
     };
 
-    const updateContact = (updatedContact) => {
+    const updateContact = (updatedContact: Contact) => {
         setContacts((prev) =>
             prev.map((contact) =>
                 contact.id === updatedContact.id ? updatedContact : contact,
@@ -34,22 +57,22 @@ export function ContactsProvider({ children }) {
         );
     };
 
-    const clearContacts = () => {
+    const clearContacts = (): void => {
         setContacts([]);
     };
 
-    const openEditModal = (contact) => {
+    const openEditModal = (contact: Contact): void => {
         setEditableContact(contact);
         setIsEditModalOpen(true);
     };
 
-    const closeEditModal = () => {
+    const closeEditModal = (): void => {
         setEditableContact(null);
         setIsEditModalOpen(false);
     };
 
-    const openSearchModal = () => setIsSearchModalOpen(true);
-    const closeSearchModal = () => setIsSearchModalOpen(false);
+    const openSearchModal = (): void => setIsSearchModalOpen(true);
+    const closeSearchModal = (): void => setIsSearchModalOpen(false);
 
     return (
         <ContactsContext.Provider
@@ -73,7 +96,7 @@ export function ContactsProvider({ children }) {
     );
 }
 
-export function useContacts() {
+export function useContacts(): ContactsContextType {
     const context = useContext(ContactsContext);
     if (!context) {
         throw new Error('useContacts must be used within a ContactsProvider');

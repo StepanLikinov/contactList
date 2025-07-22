@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useContacts } from '../../context/ContactsContext';
 import {
     createContact,
@@ -9,17 +9,23 @@ import {
 import SearchButton from '../SearchButton';
 import SearchInput from '../SearchInput';
 import Error from '../Error';
+import { FormData, Errors } from '../../types/interfaces';
 
 export default function Search() {
-    const [name, setName] = useState('');
-    const [vacancy, setVacancy] = useState('');
-    const [phone, setPhone] = useState('');
-    const [errors, setErrors] = useState({
+    const [formData, setFormData] = useState<FormData>({
         name: '',
         vacancy: '',
         phone: '',
     });
+
+    const [errors, setErrors] = useState<Errors>({
+        name: '',
+        vacancy: '',
+        phone: '',
+    });
+
     const [showError, setShowError] = useState(false);
+
     const { addContact, clearContacts, openSearchModal } = useContacts();
 
     useEffect(() => {
@@ -38,38 +44,55 @@ export default function Search() {
         }
     }, [errors]);
 
+    const handleChange =
+        (field: keyof FormData) => (e: ChangeEvent<HTMLInputElement>) => {
+            setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+        };
+
+    const resetForm = () => {
+        setFormData({ name: '', vacancy: '', phone: '' });
+        setErrors({ name: '', vacancy: '', phone: '' });
+    };
+
     const handleAdd = () => {
-        const nameValidation = validateTextInput(name);
-        const vacancyValidation = validateTextInput(vacancy);
-        const phoneValidation = validatePhoneInput(phone);
+        const nameValidation = validateTextInput(formData.name);
+        const vacancyValidation = validateTextInput(formData.vacancy);
+        const phoneValidation = validatePhoneInput(formData.phone);
 
         setErrors({
-            name: nameValidation.valid ? '' : nameValidation.message,
-            vacancy: vacancyValidation.valid ? '' : vacancyValidation.message,
-            phone: phoneValidation.valid ? '' : phoneValidation.message,
+            name: nameValidation.valid ? '' : nameValidation.message || '',
+            vacancy: vacancyValidation.valid
+                ? ''
+                : vacancyValidation.message || '',
+            phone: phoneValidation.valid ? '' : phoneValidation.message || '',
         });
 
-        if (!nameValidation.valid) setName('');
-        if (!vacancyValidation.valid) setVacancy('');
-        if (!phoneValidation.valid) setPhone('');
+        if (!nameValidation.valid)
+            setFormData((prev) => ({ ...prev, name: '' }));
+        if (!vacancyValidation.valid)
+            setFormData((prev) => ({ ...prev, vacancy: '' }));
+        if (!phoneValidation.valid)
+            setFormData((prev) => ({ ...prev, phone: '' }));
 
         if (
             nameValidation.valid &&
             vacancyValidation.valid &&
             phoneValidation.valid
         ) {
-            const newContact = createContact(name, vacancy, phone);
-            addContact(newContact);
+            const newContact = createContact(
+                formData.name,
+                formData.vacancy,
+                formData.phone,
+            );
 
-            setName('');
-            setVacancy('');
-            setPhone('');
-            setErrors({ name: '', vacancy: '', phone: '' });
+            addContact(newContact);
+            resetForm();
         }
     };
+
     const handleClear = () => {
         clearContacts();
-        setErrors({ name: '', vacancy: '', phone: '' });
+        resetForm();
     };
 
     return (
@@ -79,22 +102,22 @@ export default function Search() {
                     <SearchInput
                         classExtraName="name"
                         placeholder={errors.name || 'Name'}
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={formData.name}
+                        onChange={handleChange('name')}
                         isInvalid={!!errors.name}
                     />
                     <SearchInput
                         classExtraName="vacancy"
                         placeholder={errors.vacancy || 'Vacancy'}
-                        value={vacancy}
-                        onChange={(e) => setVacancy(e.target.value)}
+                        value={formData.vacancy}
+                        onChange={handleChange('vacancy')}
                         isInvalid={!!errors.vacancy}
                     />
                     <SearchInput
                         classExtraName="phone"
                         placeholder={errors.phone || 'Phone +X XXX XXX XX XX'}
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        value={formData.phone}
+                        onChange={handleChange('phone')}
                         isInvalid={!!errors.phone}
                     />
                     <SearchButton
