@@ -1,8 +1,9 @@
-import { useContacts } from '../context/ContactsContext';
+import { openEditModal } from '../store/slices/uiSlice';
+import { removeContact } from '../store/slices/contactsSlice';
+import { useDispatch } from 'react-redux';
 
 export default function ContactCard({ contact }) {
-    const { removeContact, openEditModal } = useContacts();
-
+    const dispatch = useDispatch();
     return (
         <div className="contact-card">
             <div className="contact-card__info">
@@ -20,13 +21,13 @@ export default function ContactCard({ contact }) {
                 <button
                     className="contact-card__edit"
                     aria-label="Edit contact"
-                    onClick={() => openEditModal(contact)}
+                    onClick={() => dispatch(openEditModal(contact))}
                 >
                     ✎
                 </button>
                 <button
                     className="contact-card__delete"
-                    onClick={() => removeContact(contact.id)}
+                    onClick={() => dispatch(removeContact(contact.id))}
                     aria-label="Delete contact"
                 >
                     ✖

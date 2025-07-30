@@ -1,9 +1,9 @@
 import LetterGroup from '../LetterGroup';
 import ContactCard from '../ContactCard';
-import { useContacts } from '../../context/ContactsContext';
+import { useSelector } from 'react-redux';
 
-export default function List({ chars, countMap }) {
-    const { contacts } = useContacts();
+export default function List({ chars }) {
+    const contacts = useSelector((state) => state.contacts.contacts);
 
     return (
         <section className="list-section">

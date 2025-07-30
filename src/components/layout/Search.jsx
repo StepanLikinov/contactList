@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useContacts } from '../../context/ContactsContext';
+import { useDispatch } from 'react-redux';
+import { addContact, clearContacts } from '../../store/slices/contactsSlice';
+import { openSearchModal } from '../../store/slices/uiSlice';
+
 import {
     createContact,
     validateTextInput,
@@ -11,6 +14,7 @@ import SearchInput from '../SearchInput';
 import Error from '../Error';
 
 export default function Search() {
+    const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [vacancy, setVacancy] = useState('');
     const [phone, setPhone] = useState('');
@@ -20,7 +24,6 @@ export default function Search() {
         phone: '',
     });
     const [showError, setShowError] = useState(false);
-    const { addContact, clearContacts, openSearchModal } = useContacts();
 
     useEffect(() => {
         const hasError = Object.values(errors).some(
@@ -59,7 +62,7 @@ export default function Search() {
             phoneValidation.valid
         ) {
             const newContact = createContact(name, vacancy, phone);
-            addContact(newContact);
+            dispatch(addContact(newContact));
 
             setName('');
             setVacancy('');
@@ -68,7 +71,7 @@ export default function Search() {
         }
     };
     const handleClear = () => {
-        clearContacts();
+        dispatch(clearContacts());
         setErrors({ name: '', vacancy: '', phone: '' });
     };
 
@@ -110,7 +113,7 @@ export default function Search() {
                     <SearchButton
                         classExtraName="search"
                         label="Search"
-                        onClick={openSearchModal}
+                        onClick={() => dispatch(openSearchModal())}
                     />
                 </div>
                 <Error visible={showError} />

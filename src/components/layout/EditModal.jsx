@@ -1,11 +1,22 @@
+/**
+ * Imports
+ */
+
 import { useState, useEffect } from 'react';
-import { useContacts } from '../../context/ContactsContext';
 import { validatePhoneInput, validateTextInput } from '../../lib/helpers';
 import LabeledInput from '../LabeledInput';
+import { updateContact } from '../../store/slices/contactsSlice';
+import { closeEditModal } from '../../store/slices/uiSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+/**
+ * EditModal
+ */
 
 export default function EditModal() {
-    const { isEditModalOpen, editableContact, updateContact, closeEditModal } =
-        useContacts();
+    const dispatch = useDispatch();
+    const isEditModalOpen = useSelector((state) => state.ui.isEditModalOpen);
+    const editableContact = useSelector((state) => state.ui.editableContact);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -67,12 +78,8 @@ export default function EditModal() {
 
         if (!isValid) return;
 
-        updateContact(newFormData);
-        closeEditModal();
-    };
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [field]: e.target.value });
+        dispatch(updateContact(newFormData));
+        dispatch(closeEditModal());
     };
 
     return (
@@ -130,7 +137,7 @@ export default function EditModal() {
                         <button
                             type="button"
                             id="edit-cancel"
-                            onClick={closeEditModal}
+                            onClick={() => dispatch(closeEditModal())}
                         >
                             Отмена
                         </button>
