@@ -9,7 +9,7 @@
 -   **Язык программирования:** JavaScript
 -   **Фреймворк:** React
 -   **Инструменты:** Webpack, NodeJS, Netlify
--   **Хранилище:** LocalStorage
+-   **Хранилище:** Redux + Redux-persist (localStorage)
 
 ## Демо
 
