@@ -4,15 +4,15 @@
 
 import LetterGroup from '../LetterGroup';
 import ContactCard from '../ContactCard';
-import { useContacts } from '../../context/ContactsContext';
 import { ListProps } from '../../types/interfaces';
+import { useAppSelector } from '../../hooks';
 
 /**
  * List
  */
 
-export default function List({ chars, countMap }: ListProps) {
-    const { contacts } = useContacts();
+export default function List({ chars }: ListProps) {
+    const { contacts } = useAppSelector((state) => state.contacts);
 
     return (
         <section className="list-section">

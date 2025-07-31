@@ -2,15 +2,19 @@
  * Inports
  */
 
-import { useContacts } from '../context/ContactsContext';
 import { ContactCardProps } from '../types/interfaces';
+import { useAppDispatch } from '../hooks';
+import { removeContact } from '../store/slices/contactsSlice';
+import { openEditModal } from '../store/slices/uiSlice';
 
 /**
  * Contact Card
  */
 
 export default function ContactCard({ contact }: ContactCardProps) {
-    const { removeContact, openEditModal } = useContacts();
+    const dispatch = useAppDispatch();
+    const handleEdit = () => dispatch(openEditModal(contact));
+    const handleDelete = () => dispatch(removeContact(contact.id));
 
     return (
         <div className="contact-card">
@@ -29,13 +33,13 @@ export default function ContactCard({ contact }: ContactCardProps) {
                 <button
                     className="contact-card__edit"
                     aria-label="Edit contact"
-                    onClick={() => openEditModal(contact)}
+                    onClick={handleEdit}
                 >
                     ✎
                 </button>
                 <button
                     className="contact-card__delete"
-                    onClick={() => removeContact(contact.id)}
+                    onClick={handleDelete}
                     aria-label="Delete contact"
                 >
                     ✖

@@ -1,17 +1,28 @@
+/**
+ * Imports
+ */
+
 import { useEffect, useState, ChangeEvent } from 'react';
-import { useContacts } from '../../context/ContactsContext';
 import {
     createContact,
     validateTextInput,
     validatePhoneInput,
 } from '../../lib/helpers';
-
 import SearchButton from '../SearchButton';
 import SearchInput from '../SearchInput';
 import Error from '../Error';
 import { FormData, Errors } from '../../types/interfaces';
+import { addContact, clearContacts } from '../../store/slices/contactsSlice';
+import { openSearchModal } from '../../store/slices/uiSlice';
+import { useAppDispatch } from '../../hooks';
+
+/**
+ * Search
+ */
 
 export default function Search() {
+    const dispatch = useAppDispatch();
+
     const [formData, setFormData] = useState<FormData>({
         name: '',
         vacancy: '',
@@ -25,8 +36,6 @@ export default function Search() {
     });
 
     const [showError, setShowError] = useState(false);
-
-    const { addContact, clearContacts, openSearchModal } = useContacts();
 
     useEffect(() => {
         const hasError = Object.values(errors).some(
@@ -85,13 +94,13 @@ export default function Search() {
                 formData.phone,
             );
 
-            addContact(newContact);
+            dispatch(addContact(newContact));
             resetForm();
         }
     };
 
     const handleClear = () => {
-        clearContacts();
+        dispatch(clearContacts());
         resetForm();
     };
 
@@ -133,7 +142,7 @@ export default function Search() {
                     <SearchButton
                         classExtraName="search"
                         label="Search"
-                        onClick={openSearchModal}
+                        onClick={() => dispatch(openSearchModal())}
                     />
                 </div>
                 <Error visible={showError} />

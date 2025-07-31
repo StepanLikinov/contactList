@@ -1,14 +1,20 @@
-import { useContacts } from '../../context/ContactsContext';
+/**
+ * Imports
+ */
+
 import { useState, ChangeEvent } from 'react';
+import { closeSearchModal, openEditModal } from '../../store/slices/uiSlice';
+import { removeContact } from '../../store/slices/contactsSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+
+/**
+ * Search Modal
+ */
 
 export default function SearchModal() {
-    const {
-        contacts,
-        isSearchModalOpen,
-        closeSearchModal,
-        removeContact,
-        openEditModal,
-    } = useContacts();
+    const dispatch = useAppDispatch();
+    const { contacts } = useAppSelector((state) => state.contacts);
+    const { isSearchModalOpen } = useAppSelector((state) => state.ui);
 
     const [query, setQuery] = useState<string>('');
 
@@ -56,14 +62,16 @@ export default function SearchModal() {
                                 <div className="contact-actions">
                                     <button
                                         className="contact-card__edit"
-                                        onClick={() => openEditModal(contact)}
+                                        onClick={() =>
+                                            dispatch(openEditModal(contact))
+                                        }
                                     >
                                         ✎
                                     </button>
                                     <button
                                         className="contact-card__delete"
                                         onClick={() =>
-                                            removeContact(contact.id)
+                                            dispatch(removeContact(contact.id))
                                         }
                                     >
                                         ✖
@@ -76,7 +84,7 @@ export default function SearchModal() {
                 <div className="modal-buttons">
                     <button
                         className="modal-buttons button"
-                        onClick={closeSearchModal}
+                        onClick={() => dispatch(closeSearchModal())}
                         id="search-close"
                     >
                         Close

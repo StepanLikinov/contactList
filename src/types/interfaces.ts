@@ -15,28 +15,19 @@ interface Contact {
     phone: string;
 }
 
+interface ContactsState {
+    contacts: Contact[];
+}
+
+interface UIState {
+    isSearchModalOpen: boolean;
+    isEditModalOpen: boolean;
+    editableContact: Contact | null;
+}
+
 interface ValidationResult {
     valid: boolean;
     message?: string;
-}
-
-interface ContactsContextType {
-    contacts: Contact[];
-    addContact: (contact: Contact) => void;
-    removeContact: (id: string) => void;
-    updateContact: (updatedContact: Contact) => void;
-    clearContacts: () => void;
-    editableContact: Contact | null;
-    isEditModalOpen: boolean;
-    openEditModal: (contact: Contact) => void;
-    closeEditModal: () => void;
-    isSearchModalOpen: boolean;
-    openSearchModal: () => void;
-    closeSearchModal: () => void;
-}
-
-interface ContactsProviderProps {
-    children: ReactNode;
 }
 
 interface ContactCardProps {
@@ -93,7 +84,6 @@ interface Placeholders {
 
 interface ListProps {
     chars: string;
-    countMap: Record<string, number>;
 }
 
 interface Errors {
@@ -108,9 +98,9 @@ interface Errors {
 
 export {
     Contact,
+    ContactsState,
+    UIState,
     ValidationResult,
-    ContactsContextType,
-    ContactsProviderProps,
     ContactCardProps,
     ErrorProps,
     LabeledInputProps,

@@ -6,10 +6,10 @@
 
 ## Технологический стек
 
--   **Язык программирования:** JavaScript
+-   **Язык программирования:** TypeScript
 -   **Фреймворк:** React
 -   **Инструменты:** Webpack, NodeJS, Netlify
--   **Хранилище:** LocalStorage
+-   **Хранилище:** Redux, Redux-persist (LocalStorage)
 
 ## Демо
 

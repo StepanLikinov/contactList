@@ -1,4 +1,12 @@
+/**
+ * Imports
+ */
+
 import { LabeledInputProps } from '../types/interfaces';
+
+/**
+ * Labeled Input
+ */
 
 export default function LabeledInput({
     label,

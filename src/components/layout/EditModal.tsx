@@ -3,7 +3,6 @@
  */
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import { useContacts } from '../../context/ContactsContext';
 import LabeledInput from '../LabeledInput';
 import { validatePhoneInput, validateTextInput } from '../../lib/helpers';
 import {
@@ -11,14 +10,19 @@ import {
     EditableFormData,
     Placeholders,
 } from '../../types/interfaces';
+import { updateContact } from '../../store/slices/contactsSlice';
+import { closeEditModal } from '../../store/slices/uiSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
 /**
  * Edit Modal
  */
 
 export default function EditModal() {
-    const { isEditModalOpen, editableContact, updateContact, closeEditModal } =
-        useContacts();
+    const dispatch = useAppDispatch();
+    const { isEditModalOpen, editableContact } = useAppSelector(
+        (state) => state.ui,
+    );
 
     const [formData, setFormData] = useState<EditableFormData>({
         id: '',
@@ -81,8 +85,8 @@ export default function EditModal() {
 
         if (!isValid) return;
 
-        updateContact(newFormData);
-        closeEditModal();
+        dispatch(updateContact(newFormData));
+        dispatch(closeEditModal());
     };
 
     const handleChange =
@@ -132,7 +136,7 @@ export default function EditModal() {
                         <button
                             type="button"
                             id="edit-cancel"
-                            onClick={closeEditModal}
+                            onClick={() => dispatch(closeEditModal())}
                         >
                             Отмена
                         </button>
